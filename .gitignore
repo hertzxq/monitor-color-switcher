@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+profiles.json
+profiles.json.broken-*
+*.tmp
+.idea/
+.vscode/
+cache/
+
+# PyInstaller build artefacts
+build/
+dist/
+release/
+*.spec.bak
