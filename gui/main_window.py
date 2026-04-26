@@ -160,6 +160,15 @@ class MainWindow(QMainWindow):
         self._build_ui()
         self._refresh_list(select_index=0 if self._profiles else None)
 
+        # Defer the capability-warning popup to AFTER show() runs (singleShot
+        # with a 0-ms timer fires once the event loop is idle, by which point
+        # main.py will have called window.show() and instantiated the tray).
+        # If we showed it synchronously here, the user would see only a stray
+        # "Доступность функций" dialog with no main window or tray icon
+        # behind it, and may not realise that closing it brings the app up.
+        QTimer.singleShot(0, self._show_capability_warnings)
+
+    def _show_capability_warnings(self) -> None:
         warnings = []
         if not self._color.nvapi_available:
             warnings.append(
